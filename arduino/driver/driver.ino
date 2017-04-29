@@ -30,10 +30,14 @@ void loop() {
   //for(int i = 0; i < 2; ++i) {
     //if(analogRead(i) < threshold) continue;
 
-int v = analogRead(3);
+int v = analogRead(0);
   if(v > threshold){
     Serial.print("OK-");
     Serial.println(v);
+
+    digitalWrite(t1out, LOW);
+delay(1000);
+    digitalWrite(t1out, HIGH);
   }
   else if (v > 10) {
     Serial.print("no-");
@@ -60,6 +64,8 @@ int v = analogRead(3);
       case 53: toggle();
       default: Serial.write("unsupported operation");
     }
+
+    delay(100);
   }
 
   delay(100);
