@@ -32,7 +32,7 @@ StaticJsonBuffer<200> jsonBuffer;
 
 void setup() {
   Serial.begin(BaudRate);
-  
+
   JsonObject& root = jsonBuffer.createObject();
   root["id"] = uuid;
   root["cmd"] = 0;
@@ -42,11 +42,11 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available()) {
+  if (Serial.available()) {
     JsonObject& root = jsonBuffer.parseObject(Serial.readString());
     if (root.success()) {
       cmd = root["cmd"];
-      switch(cmd) {
+      switch (cmd) {
         case 1: Serial.println("recv cmd-1");
         case 2: Serial.println("recv cmd-2");
         case 3: Serial.println("recv cmd-3");
@@ -57,21 +57,21 @@ void loop() {
     }
   }
 
-  read1 = analogRead(sen1);     
+  read1 = analogRead(sen1);
   read2 = analogRead(sen2);
 
-  if(read1 > minr || read2 > minr) {
+  if (read1 > minr || read2 > minr) {
     tick = millis();
-    
+
     JsonObject& root = jsonBuffer.createObject();
     root["id"] = uuid;
     root["cmd"] = Callback;
     root["t"] = tick;
-    
+
     JsonArray& data = root.createNestedArray("v");
     data.add(read1);
     data.add(read2);
-    
+
     root.printTo(Serial);
   }
 
