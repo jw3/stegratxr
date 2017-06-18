@@ -17,6 +17,10 @@ void setup() {
   Serial.begin(buad_rate);
 }
 
+void reset() {
+  for (auto t : ts) digitalWrite(t, LOW);
+}
+
 void loop() {
   if (Serial.available() > 0) {
     byte ser = Serial.read();
@@ -32,6 +36,9 @@ void loop() {
       case 57: digitalWrite(t1, HIGH); break;
       case 56: digitalWrite(t2, HIGH); break;
       case 55: digitalWrite(t3, HIGH); break;
+
+      // R - reset
+      case 82: reset(); break;
 
       default: Serial.write("unsupported operation");
     }
